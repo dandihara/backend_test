@@ -76,29 +76,31 @@ class EntranceView(APIView):
 # person / VisitOccurrence / drugExposure /death /ConditionOccurrence
 class SearchView(ListAPIView):
     # 이름을 넘겨주면 그 모델에서 사용되는 concept 값들을 다 가져온다. 중복제거.
-    # concept table과 관계가 있는 컬럼들을 모조리 가져와 검색
+    # concept table과 관계가 있는 컬럼들을 모조리 가져와 검색 (현재 전체만 가능.)
     def list(self,req,name):
-        model_list = apps.get_app_config('testAPI').get_models()
-        model_list = [m._meta.label.split(".")[1] for m in model_list]
-        print(model_list)
-        result = []
+        if name is None:
+            model_list = apps.get_app_config('testAPI').get_models()
+            model_list = [m._meta.label.split(".")[1] for m in model_list]
+            result = []
+
+            for m in model_list:
+                if m._meta.label.split(".")[1] == 'Concept':
+                    #print(m._meta.fields)
+                    related = m._meta.related_objects
+                    for r in related:
+                        print(r.identity[2])
+                        if r.identity[2] is not None:
+                            result.append(r.identity[2])
+                    break
         
-        # for m in model_list:
-        #     if m._meta.label.split(".")[1] == 'Concept':
-        #         #print(m._meta.fields)
-        #         related = m._meta.related_objects
-        #         for r in related:
-        #             print(r.identity[2])
-        #             if r.identity[2] is not None:
-        #                 result.append(r.identity[2])
-        #         break
-        
-        return Response({'result' : result})
+            return Response({'result' : result})
+        else:
+            return Response({'result': "모델을 좀 더 파는 경험을 해야겠네요.."})
 class GetTableValuesView(ListAPIView):
     def list(self,req,name):
         tables = connection.introspection.table_names()
         person = Person._meta.get_fields()
-        print(person[0])
+
         name = "Person"
         if name in tables:
             print(name._meta.get_fields())
