@@ -15,21 +15,22 @@
 
 
 
-! / (1번안 결과물- 단순 카운팅 결과값)
+ # / (1번안 결과물- 단순 카운팅 결과값)
 
  - Parameter : x
  - 각 속성에 맞는 결과값 도출
  
- - /entrance (1번안 결과물 - 입장 카운팅 결과값)
+ # /entrance (1번안 결과물 - 입장 카운팅 결과값)
  
  - Parameter : x
  - 위와 동일하게 결과물 출력 가능
 
--/concept<str:name>(2번안)
+# /concept<str:name>(2번안)
+
 -Parameter : name(str, table name)
 - 자체 모델 접근에서 검색 키워드를 사용하지 못함.
-- 
--/table/<str:name> (3번안)
+ 
+# /table/<str:name> (3번안)
 
 - Parameter : name(table name)
 - 위와 동일.
